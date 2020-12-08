@@ -1,4 +1,7 @@
+from io import StringIO
+
 import pytest
+
 from mrkup import Comment, PI, Tag
 
 
@@ -7,9 +10,15 @@ class TestComment:
         (1, 4, "\n    <!--Just a comment-->"),
         (2, None, "<!--Just a comment-->"),
     ])
-    def test_stringify(self, level, indent, expected):
+    def test_dumps(self, level, indent, expected):
         comment = Comment("Just a comment")
-        assert comment.stringify(level, indent) == expected
+        assert comment.dumps(level, indent) == expected
+
+    def test_dump(self):
+        comment = Comment("Just a comment")
+        sio = StringIO()
+        comment.dump(sio, indent=None)
+        assert sio.getvalue() == "<!--Just a comment-->"
 
     def test_repr(self):
         comment = Comment("Just a comment")
@@ -50,8 +59,14 @@ class TestTag:
          Tag("!DOCTYPE", {"html": None}, close=False),
          "<!DOCTYPE html>")
     ])
-    def test_stringify(self, level, indent, tag, expected):
-        assert tag.stringify(level, indent) == expected
+    def test_dumps(self, level, indent, tag, expected):
+        assert tag.dumps(level, indent) == expected
+
+    def test_dump(self):
+        tag = Tag("a", attrs={"href": "img.jpg"})
+        sio = StringIO()
+        tag.dump(sio, indent=None)
+        assert sio.getvalue() == '<a href="img.jpg"></a>'
 
     def test_invalid(self):
         with pytest.raises(ValueError):
@@ -73,8 +88,14 @@ class TestPI:
          """
   <?xml version="1.0" encoding="UTF-8"?>"""),
     ])
-    def test_stringify(self, level, indent, tag, expected):
-        assert tag.stringify(level, indent) == expected
+    def test_dumps(self, level, indent, tag, expected):
+        assert tag.dumps(level, indent) == expected
+
+    def test_dump(self):
+        pi = PI("xml", attrs={"version": "1.0"})
+        sio = StringIO()
+        pi.dump(sio, indent=None)
+        assert sio.getvalue() == '<?xml version="1.0"?>'
 
     def test_repr(self):
         pi_instr = PI("xml")

@@ -49,7 +49,7 @@ If an attribute need to be specified without value, it should be present in the 
 
     >>> text = Tag("input", attrs={"type": "text", "required": None},
     ...            close=None)
-    >>> text.stringify(indent=None)
+    >>> text.dumps(indent=None)
     '<input type="text" required />'
 
 `children` would have the list of `Tag`s and `strs`s that comes under the tag object.
@@ -64,7 +64,7 @@ Like, for tags with a distinct closing tag
 
     # close=True (separate closing tag)
     >>> text = Tag("p", children=["Hello!"])
-    >>> print(text.stringify())
+    >>> print(text.dumps())
 
     <p>
       Hello!
@@ -75,24 +75,24 @@ or self-closing tags like
 
     # close=None (self-closed tag)
     >>> text = Tag("img", attrs={"src": "server/img.jpg"}, close=None)
-    >>> text.stringify(indent=None)
+    >>> text.dumps(indent=None)
     '<img src="server/img.jpg" />'
 
 or tags that are not closed like
 
     # close=False (open tag)
     >>> text = Tag("br", close=False)
-    >>> text.stringify(indent=None)
+    >>> text.dumps(indent=None)
     '<br>'
 
-Note: `children` attribute of a `Tag` object is ignored during stringification if its `close` value is not True.
+Note: `children` attribute of a `Tag` object is ignored by `dump()` and `dumps()` if the `close` value is not True.
 
 Note: `attrs` and `children` attributes of a `Tag` object can be accessed and modified like a normal dict and list respectively.
 
 Note: In <i>mrkup</i>, the `<!DOCTYPE html>` declaration is meant to be implemented with the `Tag` class itself like
 
     >>> doctype = Tag("!DOCTYPE", attrs={"html": None})
-    >>> doctype.stringify(indent=None)
+    >>> doctype.dumps(indent=None)
     '<!DOCTYPE html>'
 
 <h3>Comments</h3>
@@ -104,7 +104,7 @@ Used to compose HTML comments.
 Like
 
     >>> comment = Comment("Just a comment")
-    >>> comment.stringify(indent=None)
+    >>> comment.dumps(indent=None)
     '<!--Just a comment-->'
 
 <h3>Processing instructions</h3>
@@ -117,18 +117,18 @@ Can be used for composing the XML version declaration like
 Like
 
     >>> xml_pi = PI("xml", attrs={"version": "1.0", "encoding": "UTF-8"})
-    >>> xml_pi.stringify(indent=None)
+    >>> xml_pi.dumps(indent=None)
     '<?xml version="1.0" encoding="UTF-8"?>'
 
 <h3>Converting to string</h3>
 
-The composed HTML can be converted to an equivalent string using the `stringify()` method of the objects.
+The composed HTML can be converted to an equivalent string using the `dumps()` method of the objects.
 
 <h4>Indentation</h4>
 
-Indentation level and number of spaces per indentation level used by the `stringify()` method can be specified using the `level` and `indent` argument respectively.
+Indentation level and number of spaces per indentation level used by the `dumps()` method can be specified using the `level` and `indent` argument respectively.
 
-By default `stringify()` does pretty-printing with `indent` value `2`.
+By default `dumps()` does pretty-printing with `indent` value `2`.
 
 If `indent` is `None`, pretty-printing is disabled and value of `level` is ignored.
 
@@ -140,7 +140,7 @@ Like
 
     >>> content = "p { text-align: center; }"
     >>> style = Tag("style", children=[content])
-    >>> print(style.stringify())
+    >>> print(style.dumps())
     <style>
       p { text-align: center; }
     </style>
@@ -178,7 +178,7 @@ head = Tag("head", children=[title, link, script])
 html = Tag("html", children=[head, body])
 
 # Generate string version
-doc = doctype.stringify() + html.stringify()
+doc = doctype.dumps() + html.dumps()
 print(doc)
 ```
 
