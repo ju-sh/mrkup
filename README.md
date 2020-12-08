@@ -15,9 +15,7 @@ You need Python>=3.6 to use <i>mrkup</i>.
 
 It can be installed from PyPI with pip using
 
-```
     pip install mrkup
-```
 
 <h2>Usage</h2>
 
@@ -29,20 +27,16 @@ It can be installed from PyPI with pip using
 
 which may be imported like
 
-```
     from mrkup import Comment, PI, Tag
-```
 
 <h3>Tags</h3>
 
 Used to compose tags.
 
-```
     Tag(name: str,
         attrs: dict = None,
         children: List[Union[Node, str]] = None,
         close: Optional[bool] = True)
-```
 
 `Tag` objects have the following attributes:
 
@@ -53,12 +47,10 @@ Used to compose tags.
 
 If an attribute need to be specified without value, it should be present in the `attrs` dictionary as a key but with its value as `None`. Like
 
-```
     >>> text = Tag("input", attrs={"type": "text", "required": None},
     ...            close=None)
     >>> text.stringify(indent=None)
     '<input type="text" required />'
-```
 
 `children` would have the list of `Tag`s and `strs`s that comes under the tag object.
 
@@ -68,9 +60,8 @@ If an attribute need to be specified without value, it should be present in the 
  - None: Self-closed tag
  - False: Don't close tag
 
-Like
+Like, for tags with a distinct closing tag
 
-```
     # close=True (separate closing tag)
     >>> text = Tag("p", children=["Hello!"])
     >>> print(text.stringify())
@@ -79,21 +70,20 @@ Like
       Hello!
     </p>
 
-```
 
-```
+or self-closing tags like
+
     # close=None (self-closed tag)
     >>> text = Tag("img", attrs={"src": "server/img.jpg"}, close=None)
     >>> text.stringify(indent=None)
     '<img src="server/img.jpg" />'
-```
 
-```
+or tags that are not closed like
+
     # close=False (open tag)
     >>> text = Tag("br", close=False)
     >>> text.stringify(indent=None)
     '<br>'
-```
 
 Note: `children` attribute of a `Tag` object is ignored during stringification if its `close` value is not True.
 
@@ -101,44 +91,34 @@ Note: `attrs` and `children` attributes of a `Tag` object can be accessed and mo
 
 Note: In <i>mrkup</i>, the `<!DOCTYPE html>` declaration is meant to be implemented with the `Tag` class itself like
 
-```
     >>> doctype = Tag("!DOCTYPE", attrs={"html": None})
     >>> doctype.stringify(indent=None)
     '<!DOCTYPE html>'
-```
 
 <h3>Comments</h3>
 
 Used to compose HTML comments.
 
-```
     Comment(text: str)
-```
 
 Like
 
-```
     >>> comment = Comment("Just a comment")
     >>> comment.stringify(indent=None)
     '<!--Just a comment-->'
-```
 
 <h3>Processing instructions</h3>
 
 Can be used for composing the XML version declaration like
 
-```
     PI(name: str,
        attrs: dict = None)
-```
 
 Like
 
-```
     >>> xml_pi = PI("xml", attrs={"version": "1.0", "encoding": "UTF-8"})
     >>> xml_pi.stringify(indent=None)
     '<?xml version="1.0" encoding="UTF-8"?>'
-```
 
 <h3>Converting to string</h3>
 
@@ -158,14 +138,12 @@ JavaScript contents of `<script>` and CSS of `<style>` are simply treated as pla
 
 Like
 
-```
     >>> content = "p { text-align: center; }"
     >>> style = Tag("style", children=[content])
     >>> print(style.stringify())
     <style>
       p { text-align: center; }
     </style>
-```
 
 <h3>No HTML validation</h3>
 <i>mrkup</i> doesn't perform any validation to be sure that the tags are valid HTML.
