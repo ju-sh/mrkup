@@ -1,5 +1,6 @@
-from mrkup import Comment, PI, Tag
 import pytest
+from mrkup import Comment, PI, Tag
+
 
 class TestComment:
     @pytest.mark.parametrize("level,indent,expected", [
@@ -13,7 +14,7 @@ class TestComment:
     def test_repr(self):
         comment = Comment("Just a comment")
         assert repr(comment) == "Comment('Just a comment')"
-    
+
 
 class TestTag:
     @pytest.mark.parametrize("level,indent,tag,expected", [
@@ -54,8 +55,8 @@ class TestTag:
 
     def test_invalid(self):
         with pytest.raises(ValueError):
-            tag = Tag("opentag", close=False, children=["hi"])
-    
+            Tag("opentag", close=False, children=["hi"])
+
     def test_str(self):
         tag = Tag("html")
         assert str(tag) == "html"
@@ -63,6 +64,7 @@ class TestTag:
     def test_repr(self):
         tag = Tag("html")
         assert repr(tag) == "Tag('html', {}, [], True)"
+
 
 class TestPI:
     @pytest.mark.parametrize("level,indent,tag,expected", [

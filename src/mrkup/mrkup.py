@@ -1,9 +1,10 @@
 """
-mrkup module
+core mrkup module
 """
 
 from typing import List, Optional, Union
 import abc
+
 
 def _stringify(level: int,
                indent: Optional[int],
@@ -45,7 +46,7 @@ def _stringify(level: int,
         tag_str += f" {tag_end}>"
         return tag_str
 
-    tag_str +=  f"{tag_start}>"
+    tag_str += f"{tag_start}>"
     if taginfo["close"] is False:
         return tag_str
 
@@ -73,11 +74,15 @@ class Node(abc.ABC):
     Abstract class representing all supported nodes except plain strings.
     Including comments and tags
     """
+    def __str__(self):  # To satifsy pylint (R0903)
+        ...
+
     @abc.abstractmethod
     def stringify(self, level: int, indent: Optional[int]):
         """
         Abstract method which should return a stringified form of the node
         """
+
 
 class Comment(Node):
     """
@@ -111,7 +116,8 @@ class Comment(Node):
         if indent is None:
             return str(self)
         space = "\n" + level * (' ' * indent)
-        return  f"{space}{self}"
+        return f"{space}{self}"
+
 
 class NamedNode(Node):
     """
@@ -129,6 +135,7 @@ class NamedNode(Node):
 
     def __str__(self):
         return self.name
+
 
 class Tag(NamedNode):
     """
@@ -149,7 +156,8 @@ class Tag(NamedNode):
             self-closed (None) or not closed (False)
 
         Examples:
-        >>> tag = Tag(name="input", attrs={"type": "text", "required": None}, close=None)
+        >>> tag = Tag(name="input",
+                      attrs={"type": "text", "required": None}, close=None)
         >>> tag.stringify()
         <input type="text" required />
 
@@ -173,7 +181,8 @@ class Tag(NamedNode):
         self.close = close
 
     def __repr__(self):
-        return f"Tag({self.name!r}, {self.attrs!r}, {self.children!r}, {self.close!r})"
+        return (f"Tag({self.name!r}, {self.attrs!r}, {self.children!r}, "
+                f"{self.close!r})")
 
     def stringify(self,
                   level: int = 0,
@@ -231,18 +240,3 @@ class PI(NamedNode):
                    "children": None,
                    "close": False}
         return _stringify(level, indent, taginfo, "?", "?")
-
-
-
-"""
-No parsing from outside sources
-Use Tag itself (with close=False) for xml declaration like <!DOCTYPE html>
-
-2du
-===
-context manager. dominate style
-
-CONTR
-=====
-Use google style docstrings
-"""
