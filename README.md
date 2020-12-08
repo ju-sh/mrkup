@@ -1,8 +1,7 @@
 # mrkup
 
 <a href="https://pypi.org/project/mrkup"><img alt="PyPI" src="https://img.shields.io/pypi/v/mrkup"></a>
-<img alt="Build Status" src="https://api.travis-ci.com/ju-sh/mrkup.svg?branch=master"></img>
-<a href="https://github.com/ju-sh/mrkup/blob/master/LICENSE.md"><img alt="License: MIT" src="https://img.shields.io/pypi/l/mrkup"></a>
+<a href="https://codeberg.org/ju-sh/mrkup/src/branch/master/LICENSE.md"><img alt="License: MIT" src="https://img.shields.io/pypi/l/mrkup"></a>
 
 Just marking things up...
 
@@ -39,11 +38,10 @@ which may be imported like
 Used to compose tags.
 
 ```
-    Tag(self,
-        name: str,
+    Tag(name: str,
         attrs: dict = None,
         children: List[Union[Node, str]] = None,
-        close: Optional[bool] = True):
+        close: Optional[bool] = True)
 ```
 
 `Tag` objects have the following attributes:
@@ -57,9 +55,9 @@ If an attribute need to be specified without value, it should be present in the 
 
 ```
     >>> text = Tag("input", attrs={"type": "text", "required": None},
-    ...            closed=None)
-    >>> text.stringify()
-    <input type="text" required />
+    ...            close=None)
+    >>> text.stringify(indent=None)
+    '<input type="text" required />'
 ```
 
 `children` would have the list of `Tag`s and `strs`s that comes under the tag object.
@@ -75,24 +73,26 @@ Like
 ```
     # close=True (separate closing tag)
     >>> text = Tag("p", children=["Hello!"])
-    >>> text.stringify()
+    >>> print(text.stringify())
+
     <p>
-      Hello
+      Hello!
     </p>
+
 ```
 
 ```
     # close=None (self-closed tag)
-    >>> text = Tag("img", attrs={"src": "server/img.jpg"}, closed=None)
-    >>> text.stringify()
-    <img src="server/img.jpg" />
+    >>> text = Tag("img", attrs={"src": "server/img.jpg"}, close=None)
+    >>> text.stringify(indent=None)
+    '<img src="server/img.jpg" />'
 ```
 
 ```
     # close=False (open tag)
-    >>> text = Tag("br", closed=False)
-    >>> text.stringify()
-    <br>
+    >>> text = Tag("br", close=False)
+    >>> text.stringify(indent=None)
+    '<br>'
 ```
 
 Note: `children` attribute of a `Tag` object is ignored during stringification if its `close` value is not True.
@@ -103,8 +103,8 @@ Note: In <i>mrkup</i>, the `<!DOCTYPE html>` declaration is meant to be implemen
 
 ```
     >>> doctype = Tag("!DOCTYPE", attrs={"html": None})
-    >>> doctype.stringify()
-    <!DOCTYPE html>
+    >>> doctype.stringify(indent=None)
+    '<!DOCTYPE html>'
 ```
 
 <h3>Comments</h3>
@@ -112,9 +112,15 @@ Note: In <i>mrkup</i>, the `<!DOCTYPE html>` declaration is meant to be implemen
 Used to compose HTML comments.
 
 ```
+    Comment(text: str)
+```
+
+Like
+
+```
     >>> comment = Comment("Just a comment")
-    >>> comment.stringify()
-    <!--Just a comment-->
+    >>> comment.stringify(indent=None)
+    '<!--Just a comment-->'
 ```
 
 <h3>Processing instructions</h3>
@@ -122,16 +128,32 @@ Used to compose HTML comments.
 Can be used for composing the XML version declaration like
 
 ```
+    PI(name: str,
+       attrs: dict = None)
+```
+
+Like
+
+```
     >>> xml_pi = PI("xml", attrs={"version": "1.0", "encoding": "UTF-8"})
-    >>> xml_pi.stringify()
-    <?xml version="1.0" encoding="UTF-8"?>
+    >>> xml_pi.stringify(indent=None)
+    '<?xml version="1.0" encoding="UTF-8"?>'
 ```
 
 <h3>Converting to string</h3>
 
 The composed HTML can be converted to an equivalent string using the `stringify()` method of the objects.
 
+<h4>Indentation</h4>
+
+Indentation level and number of spaces per indentation level used by the `stringify()` method can be specified using the `level` and `indent` argument respectively.
+
+By default `stringify()` does pretty-printing with `indent` value `2`.
+
+If `indent` is `None`, pretty-printing is disabled and value of `level` is ignored.
+
 <h3>Style and script data</h3>
+
 JavaScript contents of `<script>` and CSS of `<style>` are simply treated as plain text in <i>mrkup</i>.
 
 Like
@@ -139,7 +161,7 @@ Like
 ```
     >>> content = "p { text-align: center; }"
     >>> style = Tag("style", children=[content])
-    >>> style.stringify()
+    >>> print(style.stringify())
     <style>
       p { text-align: center; }
     </style>

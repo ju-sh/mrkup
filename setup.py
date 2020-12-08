@@ -11,7 +11,7 @@ setuptools.setup(
     description="Compose HTML (and some XML) using Python",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/ju-sh/mrkup",
+    url="https://codeberg.org/ju-sh/mrkup",
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
     classifiers=[
@@ -24,9 +24,9 @@ setuptools.setup(
         "Natural Language :: English",
     ],
     project_urls={
-        'Changelog': 'https://github.com/ju-sh/mrkup/CHANGELOG.md',
-        'Issue Tracker': 'https://github.com/ju-sh/mrkup/issues',
+        "Changelog": "https://codeberg.org/ju-sh/mrkup/src/branch/master/CHANGELOG.md",
+        "Issue Tracker": "https://codeberg.org/ju-sh/mrkup/issues",
     },
     install_requires=[],
-    python_requires='>=3.6',
+    python_requires=">=3.6",
 )

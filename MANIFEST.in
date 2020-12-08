@@ -8,6 +8,7 @@ include .pylintrc
 include whitelist.py
 include CONTRIBUTING.md
 include .coveragerc
+include requirements-dev.txt
 
 exclude .bumpversion.cfg
 

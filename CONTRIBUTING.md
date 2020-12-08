@@ -4,7 +4,7 @@ Pull requests are welcome!
 
 You can also help by opening an issue if you find any bug.
 
-In addtion to those in [requirements.txt](requirements.txt) This package uses the following for development:
+This project uses the following for development:
 
 | Package         | Purpose              |
 | -------         | -------              |
@@ -18,6 +18,10 @@ In addtion to those in [requirements.txt](requirements.txt) This package uses th
 Use the following command to install them.
 
     pip install -r requirements-dev.txt
+
+## Docstring style
+
+Follow [Google style guide](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings) for docstrings.
 
 ## Tests (pytest)
 

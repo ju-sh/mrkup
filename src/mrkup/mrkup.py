@@ -74,8 +74,8 @@ class Node(abc.ABC):
     Abstract class representing all supported nodes except plain strings.
     Including comments and tags
     """
-    def __str__(self):  # To satifsy pylint (R0903)
-        ...
+    def __str__(self):
+        """# To satifsy pylint (R0903)"""
 
     @abc.abstractmethod
     def stringify(self, level: int, indent: Optional[int]):
