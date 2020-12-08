@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.env/
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Vim / VSCode / editors
+*.swp
+
+# Unit test / coverage reports
+.tox/
+.cache
+.coverage
+htmlcov/
+coverage.xml
