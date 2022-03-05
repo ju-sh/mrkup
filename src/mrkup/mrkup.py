@@ -51,19 +51,22 @@ def _stringify(level: int,
         return tag_str
 
     # children
-    for child in taginfo["children"]:
-        if isinstance(child, Node):
-            # handle non-strings
-            tag_str += child.dumps(level+1, indent)
-        else:
-            # handle plain strings
-            if indent is not None:
-                tag_str += space + " " * indent
-            tag_str += str(child)
+    if taginfo["children"]:
+        for child in taginfo["children"]:
+            if isinstance(child, Node):
+                # handle non-strings
+                tag_str += child.dumps(level+1, indent)
+            else:
+                # handle plain strings
+                if indent is not None:
+                    tag_str += space + " " * indent
+                tag_str += str(child)
+        if indent is not None:
+            tag_str += "\n"
 
     # closing tag
     if indent is not None:
-        tag_str += "\n" + (level * (' ' * indent))
+        tag_str += level * (' ' * indent)
     tag_str += f"<{tag_end}{taginfo['name']}>"
 
     return tag_str
