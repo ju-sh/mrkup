@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mrkup",
-    version="0.1",
+    version="0.2",
     author="Julin S",
     author_email="",
     description="Compose HTML (and some XML) using Python",

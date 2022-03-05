@@ -11,5 +11,6 @@ include .coveragerc
 include requirements-dev.txt
 
 exclude .bumpversion.cfg
+exclude Makefile
 
 global-exclude __pycache__ *.pyc *.pyo

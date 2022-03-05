@@ -6,7 +6,7 @@ from typing import List, Optional, Union, TextIO
 import abc
 
 
-def _stringify(level: int,
+def _stringify(level: int,  # pylint: disable=too-many-branches
                indent: Optional[int],
                taginfo: dict,
                tag_start: str = "",
