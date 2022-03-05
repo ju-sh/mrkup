@@ -1,7 +1,7 @@
-v0.2 
+v0.2 (2022-Mar-05)
 ----
-* rename `stringify()` methods to `dumps()`
-* add `dump()` methods
+* `Tag`: rename `stringify()` methods to `dumps()`
+* `Tag`: add `dump()` and `dumps()` methods
 
 v0.1 (2020-Dec-08)
 ----

@@ -1,7 +1,7 @@
 # mrkup
 
 <a href="https://pypi.org/project/mrkup"><img alt="PyPI" src="https://img.shields.io/pypi/v/mrkup"></a>
-<a href="https://codeberg.org/ju-sh/mrkup/src/branch/master/LICENSE.md"><img alt="License: MIT" src="https://img.shields.io/pypi/l/mrkup"></a>
+<a href="https://github.com/ju-sh/mrkup/blob/master/LICENSE.md"><img alt="License: MIT" src="https://img.shields.io/pypi/l/mrkup"></a>
 
 Just marking things up...
 
